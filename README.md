@@ -2,6 +2,7 @@
 ### usage
 - clone this repo `git clone https://github.com/Amir1330/cheating-tool/`
 - go to the directory `cd cheating-tool`
+- install dependencies `pip install python-dotenv pyperclip google-generativeai`
 - create a ***.env*** file `touch .env`
 - add your **gemini** API key to .env file `GEMINI_API_KEY=your_api_key_here` you can find it [here](https://aistudio.google.com/apikey)
 - if you are using windows u can make it completle transparent by
