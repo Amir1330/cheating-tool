@@ -9,4 +9,4 @@
   self.root.attributes('-transparentcolor', 'black')  # Make black background transparent
   self.root.configure(bg='black')
   ```
-- run `python3 google-selector.py`
+- run `python3 google-selector.py` and just copy MCQ, it will automaticaly ask gemini and give only letter as a response 
