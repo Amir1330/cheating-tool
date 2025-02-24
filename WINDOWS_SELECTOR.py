@@ -2,7 +2,6 @@ import os
 import time
 import tkinter as tk
 import threading
-from PIL import ImageGrab
 import pytesseract
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -21,14 +20,13 @@ class ClipboardMonitor:
     def setup_gui(self):
         print("Setting up GUI...")  # Debugging statement
         self.root = tk.Tk()
-        # Windows transparency settings
         self.root.attributes('-alpha', 0.9)  # Make it more visible
         self.root.wm_attributes("-topmost", True)
         self.root.overrideredirect(True)
 
         # Set window size and position it in the center of the screen
-        window_width = 400  # Increased width
-        window_height = 200  # Increased height
+        window_width = 400
+        window_height = 200
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         x = (screen_width // 2) - (window_width // 2)
@@ -38,7 +36,7 @@ class ClipboardMonitor:
 
         self.response_label = tk.Label(
             self.root,
-            text="📋 Copy question/text or image",
+            text="📋 Copy question/text",
             wraplength=280,
             justify='left',
             fg='#2E8B57',  # Sea green
@@ -58,15 +56,8 @@ class ClipboardMonitor:
         print("GUI setup complete.")  # Debugging statement
 
     def get_clipboard_content(self):
-        """Get clipboard content with image priority"""
+        """Get clipboard content (text only)"""
         try:
-            # Check for image first
-            img = ImageGrab.grabclipboard()
-            if isinstance(img, Image.Image):
-                img.save("temp_image.png")  # Save the image temporarily
-                with open("temp_image.png", "rb") as image_file:
-                    return (image_file.read(), True)
-
             # Fallback to text
             text = pyperclip.paste().strip()
             print(f"Clipboard text: '{text}'")  # Debugging statement
@@ -76,19 +67,11 @@ class ClipboardMonitor:
             return (None, False)
 
     def process_content(self, content, is_image):
-        """Handle both text and image processing"""
+        """Handle text processing"""
         try:
             self.update_response("🔍 Analyzing...")
             print(f"Processing content: {content}")  # Debugging statement
-            
-            if is_image:
-                img = Image.open(io.BytesIO(content))
-                # Use pytesseract to extract text from the image
-                extracted_text = pytesseract.image_to_string(img)
-                print(f"Extracted text from image: '{extracted_text}'")  # Debugging statement
-                self.process_text(extracted_text.strip())
-            else:
-                self.process_text(content)
+            self.process_text(content)
         except Exception as e:
             self.update_response(f"❌ Error: {str(e)}")
 
