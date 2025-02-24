@@ -19,6 +19,7 @@ class ClipboardMonitor:
         self.setup_gui()
 
     def setup_gui(self):
+        print("Setting up GUI...")  # Debugging statement
         self.root = tk.Tk()
         # Windows transparency settings
         self.root.attributes('-alpha', 0.1)
@@ -41,6 +42,8 @@ class ClipboardMonitor:
         # Make window draggable
         self.root.bind('<Button-1>', self.start_move)
         self.root.bind('<B1-Motion>', self.on_move)
+
+        print("GUI setup complete.")  # Debugging statement
 
     def get_clipboard_content(self):
         """Get clipboard content with image priority"""
@@ -120,6 +123,7 @@ Answer:"""
                 self.update_response(f"⚠️ Clipboard Error: {str(e)}")
 
     def run(self):
+        print("Starting clipboard monitoring...")  # Debugging statement
         monitor_thread = threading.Thread(target=self.monitor_clipboard)
         monitor_thread.daemon = True
         monitor_thread.start()
