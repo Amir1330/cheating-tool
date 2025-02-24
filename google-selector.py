@@ -30,11 +30,11 @@ class ClipboardMonitor:
 
         self.response_label = tk.Label(
             self.root,
-            text="Copy question to clipboard...",
+            text="...",
             wraplength=280,
             justify='left',
             fg='gray',  # Bright green
-            bg='#EAEBEB',
+            bg='#FFFFFF',
             font=('Consolas', 12, 'bold')
         )
         self.response_label.pack(fill='both', expand=True)
@@ -45,7 +45,7 @@ class ClipboardMonitor:
 
     def process_text(self, text):
         try:
-            self.update_response("Processing...")
+            self.update_response("...")
             prompt = f"""
 You are an exam assistant. Given the question below:
 1. If it's a multiple choice question, respond only with the letter(s) of correct answer(s)
