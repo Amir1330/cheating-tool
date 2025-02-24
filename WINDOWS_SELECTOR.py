@@ -77,11 +77,13 @@ class ClipboardMonitor:
         """Handle both text and image processing"""
         try:
             self.update_response("🔍 Analyzing...")
+            print(f"Processing content: {content}")  # Debugging statement
             
             if is_image:
                 img = Image.open(io.BytesIO(content))
                 # Use pytesseract to extract text from the image
                 extracted_text = pytesseract.image_to_string(img)
+                print(f"Extracted text from image: {extracted_text}")  # Debugging statement
                 self.process_text(extracted_text.strip())
             else:
                 self.process_text(content)
@@ -92,6 +94,7 @@ class ClipboardMonitor:
         """Process the extracted or copied text"""
         try:
             self.update_response("...")
+            print(f"Sending to AI: {text}")  # Debugging statement
             prompt = f"""
 You are an exam assistant. Given the question below:
 1. If it's a multiple choice question, respond only with the letter(s) of correct answer(s)
@@ -102,7 +105,11 @@ You are an exam assistant. Given the question below:
 Question: {text}
 Answer:"""
             response = self.model.generate_content(prompt)
-            self.update_response(response.text.strip())
+            print(f"AI Response: {response.text.strip()}")  # Debugging statement
+            if response.text.strip():  # Check if response is not empty
+                self.update_response(response.text.strip())
+            else:
+                self.update_response("No response from AI.")
         except Exception as e:
             self.update_response(f"Error: {str(e)}")
 
