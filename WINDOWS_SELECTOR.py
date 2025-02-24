@@ -69,8 +69,10 @@ class ClipboardMonitor:
 
             # Fallback to text
             text = pyperclip.paste().strip()
+            print(f"Clipboard text: '{text}'")  # Debugging statement
             return (text, False) if text else (None, False)
         except Exception as e:
+            print(f"Error getting clipboard content: {str(e)}")  # Debugging statement
             return (None, False)
 
     def process_content(self, content, is_image):
@@ -83,7 +85,7 @@ class ClipboardMonitor:
                 img = Image.open(io.BytesIO(content))
                 # Use pytesseract to extract text from the image
                 extracted_text = pytesseract.image_to_string(img)
-                print(f"Extracted text from image: {extracted_text}")  # Debugging statement
+                print(f"Extracted text from image: '{extracted_text}'")  # Debugging statement
                 self.process_text(extracted_text.strip())
             else:
                 self.process_text(content)
@@ -94,7 +96,7 @@ class ClipboardMonitor:
         """Process the extracted or copied text"""
         try:
             self.update_response("...")
-            print(f"Sending to AI: {text}")  # Debugging statement
+            print(f"Sending to AI: '{text}'")  # Debugging statement
             prompt = f"""
 You are an exam assistant. Given the question below:
 1. If it's a multiple choice question, respond only with the letter(s) of correct answer(s)
@@ -105,7 +107,7 @@ You are an exam assistant. Given the question below:
 Question: {text}
 Answer:"""
             response = self.model.generate_content(prompt)
-            print(f"AI Response: {response.text.strip()}")  # Debugging statement
+            print(f"AI Response: '{response.text.strip()}'")  # Debugging statement
             if response.text.strip():  # Check if response is not empty
                 self.update_response(response.text.strip())
             else:
