@@ -22,10 +22,18 @@ class ClipboardMonitor:
         print("Setting up GUI...")  # Debugging statement
         self.root = tk.Tk()
         # Windows transparency settings
-        self.root.attributes('-alpha', 0.1)
+        self.root.attributes('-alpha', 0.9)  # Make it more visible
         self.root.wm_attributes("-topmost", True)
         self.root.overrideredirect(True)
-        self.root.geometry("303x100+40+900")
+
+        # Set window size and position it in the center of the screen
+        window_width = 400  # Increased width
+        window_height = 200  # Increased height
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.configure(bg='black')
 
         self.response_label = tk.Label(
