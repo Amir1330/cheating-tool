@@ -47,6 +47,10 @@ class ClipboardMonitor:
         )
         self.response_label.pack(fill='both', expand=True)
 
+        # Close button
+        close_button = tk.Button(self.root, text="Close", command=self.close_window)
+        close_button.pack(pady=10)
+
         # Make window draggable
         self.root.bind('<Button-1>', self.start_move)
         self.root.bind('<B1-Motion>', self.on_move)
@@ -129,6 +133,11 @@ Answer:"""
                 time.sleep(0.3)
             except Exception as e:
                 self.update_response(f"⚠️ Clipboard Error: {str(e)}")
+
+    def close_window(self):
+        """Close the application"""
+        self.is_running = False
+        self.root.destroy()
 
     def run(self):
         print("Starting clipboard monitoring...")  # Debugging statement
